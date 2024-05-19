@@ -1,0 +1,61 @@
+@startuml
+entity Cuenta {
+    ID_Cuenta : int
+    Nombre : string
+    Dirección : string
+    // Otros atributos
+}
+
+entity TarjetaDebito {
+    ID_TarjetaDebito : int
+    NumeroTarjeta : string
+    Saldo : decimal
+    ID_Cuenta : int
+}
+
+entity TarjetaCredito {
+    ID_TarjetaCredito : int
+    NumeroTarjeta : string
+    LimiteCredito : decimal
+    Saldo : decimal
+    ID_Cuenta : int
+}
+
+entity Movimiento {
+    ID_Movimiento : int
+    Fecha : Date
+    Monto : decimal
+}
+
+entity MovimientoPagoServicio {
+    ID_Movimiento : int
+    Num_Convenio : int
+    Referencia : string
+}
+
+entity Servicio {
+    Num_Convenio : int
+    NombreServicio : string
+}
+
+entity Cuenta_Movimiento {
+    ID_Movimiento : int
+    ID_Cuenta : int
+}
+
+entity BilletesCajero {
+    ID_Billete : int
+    Denominacion : int
+    Cantidad : int
+}
+
+Cuenta ||--o{ TarjetaDebito : "tiene"
+Cuenta ||--o{ TarjetaCredito : "tiene"
+Cuenta ||--o{ Cuenta_Movimiento : "relacionado con"
+Cuenta_Movimiento }o--|| Movimiento : "relaciona"
+
+Movimiento ||--|| MovimientoPagoServicio : "especialización"
+
+MovimientoPagoServicio }o--|| Servicio : "usa"
+
+@enduml
