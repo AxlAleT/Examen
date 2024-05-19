@@ -6,18 +6,18 @@ from modelos.Servicio import Servicio
 
 class Tipo_Movimiento(Base):
     __tablename__ = "Tipo_Movimiento"
-    ID_Tipo_Movimiento = Column(Integer, primary_key=True)
-    Tipo = Column(String(20))
+    ID_Tipo_Movimiento = Column(Integer, primary_key=True, nullable=False, unique=True)
+    Tipo = Column(String(20), nullable=False)
     Descripcion = Column(String(100))
 
 
 class Movimiento(Base):
     __tablename__ = "Movimiento"
 
-    ID_Movimiento = Column(Integer, primary_key=True)
+    ID_Movimiento = Column(Integer, primary_key=True, nullable=False, unique=True)
     Fecha = Column(Date)
-    Monto = Column(DECIMAL)
-    ID_Tipo_Movimiento = Column(Integer, ForeignKey("Tipo_Movimiento.ID_Tipo_Movimiento"))
+    Monto = Column(DECIMAL, nullable=False)
+    ID_Tipo_Movimiento = Column(Integer, ForeignKey("Tipo_Movimiento.ID_Tipo_Movimiento"), nullable=False)
     Tipo_Movimiento = relationship(Tipo_Movimiento)
 
     def __str__(self):
@@ -27,9 +27,9 @@ class Movimiento(Base):
 class MovimientoPagoServicio(Base):
     __tablename__ = "Movimiento_pago_servicio"
 
-    ID_Movimiento = Column(Integer, ForeignKey('Movimiento.ID_Movimiento'), primary_key=True)
+    ID_Movimiento = Column(Integer, ForeignKey('Movimiento.ID_Movimiento'), primary_key=True, nullable=False)
     Movimiento = relationship(Movimiento)
-    Num_Convenio = Column(ForeignKey("Servicio.Num_Convenio"))
+    Num_Convenio = Column(ForeignKey("Servicio.Num_Convenio"), nullable=False)
     Servicio = relationship(Servicio)
 
     Referencia = Column(String)
