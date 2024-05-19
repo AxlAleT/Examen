@@ -107,6 +107,7 @@ def poblar(engine):
     tipo_pago_tarjeta_credito = session.query(Tipo_Movimiento).filter_by(Tipo='Pago de tarjeta de crédito').first().ID_Tipo_Movimiento
     tipo_consulta_saldo = session.query(Tipo_Movimiento).filter_by(Tipo='Consulta de saldo').first().ID_Tipo_Movimiento
 
+
     # Agregar movimientos a las cuentas y crear la relación con la tabla intermedia
     for cuenta in session.query(Cuenta).all():
         # Crear movimientos de ejemplo

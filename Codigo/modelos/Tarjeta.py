@@ -24,6 +24,27 @@ class Tarjeta_Debito(Base):
         # Verificar si el NIP coincide con el hash almacenado
         return bcrypt.checkpw(nip.encode('utf-8'), self.nip_hash.encode('utf-8'))
     
+    def obtener_tarjeta_Debito_numero(numero_tarjeta, sesion):
+        return sesion.query(Tarjeta_Debito).filter_by(NumeroTarjeta=numero_tarjeta).first()
+    
+    def validar_Tarjeta(num_tarjeta):
+        # Verificar si el argumento es un entero
+        if not isinstance(num_tarjeta, int):
+            return False
+        
+        # Convertir el entero a cadena para verificar la longitud y el prefijo
+        tarjeta_str = str(num_tarjeta)
+        
+        # Verificar si la cadena tiene exactamente 16 dígitos y comienza con "400000"
+        if len(tarjeta_str) == 16 and tarjeta_str.isdigit() and tarjeta_str.startswith("400000"):
+            return True
+        else:
+            return False
+
+
+    
+
+    
 class Tarjeta_Credito(Base):
     __tablename__ = "Tarjeta_Credito"
 
@@ -44,3 +65,20 @@ class Tarjeta_Credito(Base):
     def check_nip(self, nip):
         # Verificar si el NIP coincide con el hash almacenado
         return bcrypt.checkpw(nip.encode('utf-8'), self.nip_hash.encode('utf-8'))
+    
+    def obtener_tarjeta_Credito_numero(numero_tarjeta, sesion):
+        return sesion.query(Tarjeta_Credito).filter_by(NumeroTarjeta=numero_tarjeta).first()
+    
+    def validar_Tarjeta(num_tarjeta):
+        # Verificar si el argumento es un entero
+        if not isinstance(num_tarjeta, int):
+            return False
+        
+        # Convertir el entero a cadena para verificar la longitud y el prefijo
+        tarjeta_str = str(num_tarjeta)
+        
+        # Verificar si la cadena tiene exactamente 16 dígitos y comienza con "400000"
+        if len(tarjeta_str) == 16 and tarjeta_str.isdigit() and tarjeta_str.startswith("400000"):
+            return True
+        else:
+            return False
