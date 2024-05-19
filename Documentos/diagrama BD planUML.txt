@@ -25,6 +25,13 @@ entity Movimiento {
     ID_Movimiento : int
     Fecha : Date
     Monto : decimal
+    ID_Tipo_Movimiento : int
+}
+
+entity Tipo_Movimiento {
+    ID_Tipo_Movimiento : int
+    Tipo : string
+    Descripcion : string
 }
 
 entity MovimientoPagoServicio {
@@ -55,6 +62,7 @@ Cuenta ||--o{ Cuenta_Movimiento : "relacionado con"
 Cuenta_Movimiento }o--|| Movimiento : "relaciona"
 
 Movimiento ||--|| MovimientoPagoServicio : "especialización"
+Movimiento ||--|| Tipo_Movimiento
 
 MovimientoPagoServicio }o--|| Servicio : "usa"
 
