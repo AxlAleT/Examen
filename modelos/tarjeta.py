@@ -1,42 +1,29 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, DECIMAL, ForeignKey
+from sqlalchemy.orm import relationship
+from modelos.Cuenta import Cuenta
+from bd.base import Base
 
-Base = declarative_base()
+class Tarjeta_Debito(Base):
+    __tablename__ = "Tarjeta_Debito"
 
-class tarjeta(Base):
-    __tablename__ = 'tarjeta'
+    NumeroTarjeta = Column(Integer, primary_key=True)
+    Saldo = Column(DECIMAL)
+    NIP = Column(Integer)
+    Num_Cuenta = Column(Integer, ForeignKey("Cuenta.Num_Cuenta") )
+    Cuenta = relationship(Cuenta)
 
-    numero_tarjeta = Column(Integer, primary_key=True)
-    nip = Column(Integer)
-    expiracion = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    balance = Column(Integer),
+    def __str__(self):
+        return self.NumeroTarjeta
+    
+class Tarjeta_Credito(Base):
+    __tablename__ = "Tarjeta_Credito"
 
-    user = relationship("User", back_populates="cards")
+    NumeroTarjeta = Column(Integer, primary_key=True)
+    Saldo = Column(DECIMAL)
+    LimiteCredito = Column(DECIMAL)
+    NIP = Column(Integer)
+    Num_Cuenta = Column(Integer, ForeignKey("Cuenta.Num_Cuenta") )
+    Cuenta = relationship(Cuenta)
 
-    def __init__(self, card_number, nip, expiration_date, user, balance):
-        self.card_number = card_number
-        self.nip = nip
-        self.expiration_date = expiration_date
-        self.user = user
-        self.balance = balance
-
-class tarjetaCredito(Base):
-    __tablename__ = 'tarjetaCredito'
-
-    numero_tarjeta = Column(Integer, primary_key=True)
-    nip = Column(Integer)
-    expiracion = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    balance = Column(Integer),
-    limite_credito = Column(Integer)
-
-
-    user = relationship("User", back_populates="cards")
-
-    def __init__(self, card_number, nip, expiration_date, user, balance):
-        self.card_number = card_number
-        self.nip = nip
-        self.expiration_date = expiration_date
-        self.user = user
-        self.balance = balance
+    def __str__(self):
+        return self.NumeroTarjeta
