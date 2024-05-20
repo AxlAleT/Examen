@@ -42,4 +42,13 @@ class Deposito(wx.Frame):
             wx.MessageBox('Monto inválido', 'Error', wx.OK | wx.ICON_ERROR)
 
     def volver_menu_principal(self, event):
+            """Método para volver al menú principal.
+
+        Este método se llama cuando se presiona el botón para volver al menú
+        principal. Cierra la ventana de depósito de efectivo.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
         self.Close()
