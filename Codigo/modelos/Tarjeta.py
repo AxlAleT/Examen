@@ -28,7 +28,7 @@ class Tarjeta_Debito(Base):
         return self.NumeroTarjeta
     
     def set_nip(self, nip):
-           """
+        """
         Establece el NIP de la tarjeta de débito.
 
         Args:
@@ -41,7 +41,7 @@ class Tarjeta_Debito(Base):
         self.nip_hash = bcrypt.hashpw(nip.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     def check_nip(self, nip):
-          """
+        """
         Verifica si el NIP dado coincide con el NIP de la tarjeta.
 
         Args:
@@ -55,7 +55,7 @@ class Tarjeta_Debito(Base):
     
     @classmethod
     def obtener_tarjeta_Debito_numero(cls,numero_tarjeta, sesion):
-         """
+        """
         Obtiene una tarjeta de débito por su número.
 
         Args:
@@ -69,7 +69,7 @@ class Tarjeta_Debito(Base):
     
     @staticmethod
     def validar_Tarjeta(num_tarjeta):
-            """
+        """
         Valida un número de tarjeta de débito.
 
         Args:
@@ -90,7 +90,7 @@ class Tarjeta_Debito(Base):
     
     @classmethod
     def validar_y_obtener_tarjeta(cls, num_tarjeta, nip, sesion):
-          """
+        """
         Valida y obtiene una tarjeta de débito por su número y NIP.
 
         Args:
@@ -120,7 +120,7 @@ class Tarjeta_Debito(Base):
 
     
 class Tarjeta_Credito(Base):
-     """
+    """
     Clase que representa una tarjeta de crédito en la base de datos.
 
     Attributes:
@@ -145,7 +145,7 @@ class Tarjeta_Credito(Base):
         return self.NumeroTarjeta
     
     def set_nip(self, nip):
-           """
+        """
         Establece el NIP de la tarjeta de crédito.
 
         Args:
@@ -158,7 +158,7 @@ class Tarjeta_Credito(Base):
         self.nip_hash = bcrypt.hashpw(nip.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     def check_nip(self, nip):
-           """
+        """
         Verifica si el NIP dado coincide con el NIP de la tarjeta.
 
         Args:
@@ -172,7 +172,7 @@ class Tarjeta_Credito(Base):
     
     @classmethod
     def obtener_tarjeta_Credito_numero(cls,numero_tarjeta, sesion):
-           """
+        """
         Obtiene una tarjeta de crédito por su número.
 
         Args:
@@ -186,7 +186,7 @@ class Tarjeta_Credito(Base):
     
     @staticmethod
     def validar_Tarjeta(num_tarjeta):
-          """
+        """
         Valida un número de tarjeta de crédito.
 
         Args:
@@ -207,7 +207,7 @@ class Tarjeta_Credito(Base):
         
     @classmethod
     def validar_y_obtener_tarjeta(cls, num_tarjeta, nip, sesion):
-           """
+        """
         Valida y obtiene una tarjeta de crédito por su número y NIP.
 
         Args:
