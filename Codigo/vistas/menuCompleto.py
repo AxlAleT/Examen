@@ -15,6 +15,7 @@ class MenuCompleto(wx.Frame):
             ("Pago de Tarjeta de Crédito", self.pagar_tarjeta_credito),
             ("Pago de Servicios", self.pagar_servicios),
             ("Consulta de Saldo/Movimientos", self.consultar_saldo_movimientos),
+            ("Salir", self.salir)  # Botón Salir
         ]
 
         for label, handler in buttons:
@@ -26,21 +27,28 @@ class MenuCompleto(wx.Frame):
         self.Show()
 
     def retirar_efectivo(self, event):
-        retiro_frame = Retiro(self, numero_tarjeta= self.numero_tarjeta)
+        retiro_frame = Retiro(self, numero_tarjeta=self.numero_tarjeta)
         retiro_frame.Show()
 
     def depositar_efectivo(self, event):
-        print("Depósito de efectivo")
-        # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+        from vistas.deposito_vista import Deposito
+        deposito = Deposito(self, numero_tarjeta= self.numero_tarjeta)
+        deposito.Show()
+
 
     def pagar_tarjeta_credito(self, event):
         print("Pago de tarjeta de crédito")
         # Aquí puedes utilizar self.numero_tarjeta según sea necesario
 
     def pagar_servicios(self, event):
-        print("Pago de servicios")
-        # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+        from vistas.seleccionarServicio import SeleccionarServicioParaTarjeta
+        seleccionarServicioParaTarjeta = SeleccionarServicioParaTarjeta(self, num_tarjeta=self.numero_tarjeta)
+        seleccionarServicioParaTarjeta.Show()
 
     def consultar_saldo_movimientos(self, event):
         print("Consulta de saldo/movimientos")
         # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+
+    def salir(self, event):
+        self.Close()  # Cierra la ventana actual
+

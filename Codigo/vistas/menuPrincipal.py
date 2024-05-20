@@ -23,10 +23,14 @@ class MenuPrincipal(wx.Frame):
         self.Show()
 
     def depositar_efectivo(self, event):
-        print("Depósito de efectivo")
+        from vistas.deposito_vista import Deposito
+        deposito = Deposito(parent=self)
+        deposito.Show()
 
     def pagar_servicios(self, event):
-        print("Pago de servicios")
+        from vistas.seleccionarServicio import SeleccionarServicio
+        seleccionarServicio = SeleccionarServicio(self)
+        seleccionarServicio.Show()
 
     def abrir_insertar_tarjeta(self, event):
         insertar_tarjeta_frame = InsertarTarjeta(self)
