@@ -1,10 +1,11 @@
 from modelos.Tarjeta import Tarjeta_Credito, Tarjeta_Debito
-from sqlalchemy.orm import sessionmaker
 from excepciones import excepciones_tarjeta
 from excepciones import excepciones_billete
 from modelos.Billete import Billete
 from bd.db_controlador import sesion
-from decimal import Decimal
+from modelos.Movimiento import Movimiento
+from datetime import datetime
+from modelos.CuentaMovimiento import Cuenta_Movimiento
 
 class RetiroControlador(): 
 
@@ -24,7 +25,20 @@ class RetiroControlador():
 
             billetes = Billete.dar_monto_mas_eficiente(sesion, monto)
             tarjeta_credito.Saldo += monto
+
+            # Obtener la cuenta asociada a la tarjeta
+            cuenta = tarjeta_credito.Cuenta
+
+            # Registro del movimiento de retiro
+            movimiento = Movimiento(Fecha=datetime.now(), Monto=monto, ID_Tipo_Movimiento=1)  # 1 corresponde al retiro de efectivo
+            sesion.add(movimiento)
             sesion.commit()
+
+            # Asociar el movimiento con la cuenta
+            cuenta_movimiento = Cuenta_Movimiento(Num_Cuenta=cuenta.Num_Cuenta, ID_Movimiento=movimiento.ID_Movimiento)
+            sesion.add(cuenta_movimiento)
+            sesion.commit()
+
             return billetes
         
         # Verificar si es una tarjeta de débito válida
@@ -41,8 +55,22 @@ class RetiroControlador():
 
             billetes = Billete.dar_monto_mas_eficiente(sesion, monto)
             tarjeta_debito.Saldo -= monto
+
+            # Obtener la cuenta asociada a la tarjeta
+            cuenta = tarjeta_debito.Cuenta
+
+            # Registro del movimiento de retiro
+            movimiento = Movimiento(Fecha=datetime.now(), Monto=monto, ID_Tipo_Movimiento=1)  # 1 corresponde al retiro de efectivo
+            sesion.add(movimiento)
             sesion.commit()
+
+            # Asociar el movimiento con la cuenta
+            cuenta_movimiento = Cuenta_Movimiento(Num_Cuenta=cuenta.Num_Cuenta, ID_Movimiento=movimiento.ID_Movimiento)
+            sesion.add(cuenta_movimiento)
+            sesion.commit()
+
             return billetes
         
         else:
             raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de tarjeta incorrecto")
+

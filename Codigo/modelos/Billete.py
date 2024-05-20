@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, CheckConstraint
 from bd.base import Base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
+from sqlalchemy import desc
 
 class Billete(Base):
     __tablename__ = "Billete"
@@ -31,17 +30,17 @@ class Billete(Base):
 
         return False
     
-
+    @staticmethod
     def dar_monto_mas_eficiente(session, monto):
         billetes = session.query(Billete).all()
-        resultado = Billete._dar_monto_mas_eficiente_con_billetes(billetes, monto)
+        resultado = Billete._dar_monto_programacion_dinamica_con_billetes(billetes, monto)
         if resultado is None:
             return None
         else:
-            return [(billete.Denominacion, billete.Cantidad - nueva_cantidad) for billete, nueva_cantidad in resultado]
-        
+            return [(billete.Denominacion, cantidad) for billete, cantidad in resultado]
 
-    def _dar_monto_mas_eficiente_con_billetes(billetes, monto):
+    @staticmethod
+    def _dar_monto_programacion_dinamica_con_billetes(billetes, monto):
         dp = [None] * (monto + 1)
         dp[0] = []
 
@@ -50,10 +49,8 @@ class Billete(Base):
                 if billete.Cantidad > 0 and current_monto >= billete.Denominacion:
                     previous_monto = current_monto - billete.Denominacion
                     if dp[previous_monto] is not None:
-                        nueva_cantidad = billete.Cantidad - 1
-                        if nueva_cantidad >= 0:
-                            nueva_solucion = dp[previous_monto] + [(billete, nueva_cantidad)]
-                            if dp[current_monto] is None or len(nueva_solucion) < len(dp[current_monto]):
-                                dp[current_monto] = nueva_solucion
-
+                        nueva_cantidad = min(billete.Cantidad, monto // billete.Denominacion)
+                        if dp[current_monto] is None or len(dp[previous_monto]) + 1 < len(dp[current_monto]):
+                            dp[current_monto] = dp[previous_monto] + [(billete, nueva_cantidad)]
+        
         return dp[monto]
