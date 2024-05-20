@@ -118,19 +118,34 @@ class Billete(Base):
         Notes:
             Si no es posible entregar el monto con las denominaciones disponibles, devuelve una lista vacía.
         """
-        denominaciones.sort(reverse=True, key=lambda x: x[0])  # Ordenamos las denominaciones de mayor a menor
-        cambio = []
-        for denom, cant in denominaciones:
-            if monto <= 0:
-                break
-            if cant > 0 and denom <= monto:
-                cant_billetes = min(monto // denom, cant)  # Calculamos la cantidad de billetes de esta denominación que podemos usar
-                monto -= cant_billetes * denom  # Restamos el valor de los billetes usados del monto total
-                if cant_billetes > 0:
-                    cambio.append((denom, cant_billetes))  # Añadimos los billetes utilizados al cambio
-        if monto > 0:
+        # Ordenamos las denominaciones de mayor a menor
+        denominaciones.sort(reverse=True, key=lambda x: x[0])
+        dp = [None] * (monto + 1)
+        dp[0] = []
+
+        for current_monto in range(1, monto + 1):
+            for denom, cant in denominaciones:
+                if cant > 0 and current_monto >= denom:
+                    previous_monto = current_monto - denom
+                    if dp[previous_monto] is not None:
+                        if dp[current_monto] is None or len(dp[previous_monto]) + 1 < len(dp[current_monto]):
+                            dp[current_monto] = dp[previous_monto] + [(denom, 1)]
+
+        if dp[monto] is None:
             print("No se puede dar cambio completo.")
             return []
-        return cambio
+
+        # Convertimos la lista de denominaciones a la lista con cantidades
+        resultado = []
+        for denom, _ in dp[monto]:
+            for i in range(len(resultado)):
+                if resultado[i][0] == denom:
+                    resultado[i] = (denom, resultado[i][1] + 1)
+                    break
+            else:
+                resultado.append((denom, 1))
+
+        return resultado
+
 
 
