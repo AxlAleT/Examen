@@ -43,7 +43,7 @@ class PagoTarjetaCreditoControlador():
             tarjeta_debito = Tarjeta_Debito.obtener_tarjeta_Debito_numero(num_tarjeta, PagoTarjetaCreditoControlador.sesion)
             if tarjeta_debito is None:
                 raise NumeroTarjetaIncorrecto("Número de tarjeta de débito incorrecto")
-            tarjeta_credito = tarjeta_debito.obtener_tarjeta_credito_asociada(PagoTarjetaCreditoControlador.sesion)
+            tarjeta_credito = PagoTarjetaCreditoControlador.sesion.query(Tarjeta_Debito).filter_by(NumeroTarjeta=num_tarjeta).first()
             if tarjeta_credito is None:
                 raise NumeroTarjetaIncorrecto("No se encontró una tarjeta de crédito asociada a la tarjeta de débito proporcionada")
 

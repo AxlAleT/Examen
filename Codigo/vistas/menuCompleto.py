@@ -108,12 +108,13 @@ class MenuCompleto(wx.Frame):
             event: El evento que desencadenó la llamada al método.
 
         """
-        print("Consulta de saldo/movimientos")
-        # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+        from vistas.saldosmov_vistas import ConsultaSaldo
+        consultaSaldo = ConsultaSaldo(parent=self, num_tarjeta=self.numero_tarjeta)
+        consultaSaldo.Show()
     
     def cambiar_nip(self, event):
         engine = create_engine('sqlite:///Codigo/bd/base.db')
-        nip_frame = CambioNIP(self, engine, numero_tarjeta=self.numero_tarjeta)
+        nip_frame = CambioNIP(parent= self, numero_tarjeta=self.numero_tarjeta)
         nip_frame.Show()
 
     def salir(self, event):
