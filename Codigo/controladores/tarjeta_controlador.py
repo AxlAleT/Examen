@@ -29,7 +29,7 @@ class TarjetaControlador:
 
     @staticmethod
     def validar_numero_tarjeta(num_tarjeta): 
-            """
+        """
         Valida si un número de tarjeta es válido.
 
         Args:
@@ -64,7 +64,7 @@ class TarjetaControlador:
 
     @staticmethod
     def validar_nip(num_tarjeta, nip):
-           """
+        """
         Valida el NIP de una tarjeta.
 
         Args:
