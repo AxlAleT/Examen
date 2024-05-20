@@ -14,7 +14,7 @@ class DepositoSinTarjeta(wx.Frame):
 
     """
     def __init__(self, parent):
-         """
+        """
           Inicializa la ventana de depósito de efectivo sin tarjeta.
 
         Args:
@@ -53,7 +53,7 @@ class DepositoSinTarjeta(wx.Frame):
         panel.SetSizer(vbox)
 
     def depositar_efectivo(self, event):
-         """
+        """
           Método para realizar el depósito de efectivo.
 
         Este método se llama cuando se presiona el botón de depósito. Obtiene

@@ -11,7 +11,7 @@ class TarjetaControlador:
     """
     @staticmethod
     def determinar_tipo_tarjeta(num_tarjeta):
-         """
+        """
         Determina el tipo de tarjeta basado en su número.
 
         Args:
@@ -42,7 +42,7 @@ class TarjetaControlador:
 
     @staticmethod
     def obtener_tarjeta(num_tarjeta):
-           """
+        """
         Obtiene la tarjeta correspondiente al número dado.
 
         Args:

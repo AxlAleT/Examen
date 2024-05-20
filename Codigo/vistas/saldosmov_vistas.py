@@ -1,5 +1,5 @@
 import wx
-from controladores.consulta_controlador import ConsultaControlador
+from controladores.saldosmov_controlador import ConsultaControlador
 from excepciones.excepciones_tarjeta import NumeroTarjetaIncorrecto
 
 class ConsultaSaldo(wx.Frame):
