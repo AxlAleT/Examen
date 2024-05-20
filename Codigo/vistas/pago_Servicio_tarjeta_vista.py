@@ -1,16 +1,39 @@
-# pago_servicio_con_tarjeta_vista.py
 import wx
 from controladores.pago_servicio_controlador import PagoServicioControlador
 from excepciones.excepciones_tarjeta import NipIncorrecto, SaldoInsuficiente, NumeroTarjetaIncorrecto
 
 class PagoServicioConTarjeta(wx.Frame):
+    """
+    Clase que representa la ventana para realizar un pago de servicio con tarjeta en un cajero automático.
+
+    Attributes:
+        parent (wx.Window): La ventana padre de esta ventana.
+        num_tarjeta (str): El número de tarjeta con la que se realizará el pago.
+        num_convenio (int): El número de convenio del servicio al que se realizará el pago.
+
+    Methods:
+        __init__(parent, num_tarjeta, num_convenio): Inicializa la ventana de pago de servicio con tarjeta.
+        InitUI(): Inicializa la interfaz de usuario.
+        pagar_servicio(event): Realiza el pago del servicio.
+        volver(event): Cierra la ventana y vuelve al menú principal.
+    """
+
     def __init__(self, parent, num_tarjeta, num_convenio):
+        """
+        Inicializa la ventana de pago de servicio con tarjeta.
+
+        Args:
+            parent (wx.Window): La ventana padre de esta ventana.
+            num_tarjeta (str): El número de tarjeta con la que se realizará el pago.
+            num_convenio (int): El número de convenio del servicio al que se realizará el pago.
+        """
         super().__init__(parent, title='Pago de Servicio con Tarjeta', size=(400, 300))
         self.num_tarjeta = num_tarjeta
         self.num_convenio = num_convenio
         self.InitUI()
 
     def InitUI(self):
+        """Inicializa la interfaz de usuario."""
         panel = wx.Panel(self)
         vbox = wx.BoxSizer(wx.VERTICAL)
 
@@ -49,6 +72,12 @@ class PagoServicioConTarjeta(wx.Frame):
         self.Show()
 
     def pagar_servicio(self, event):
+        """
+        Realiza el pago del servicio.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         nip = self.text_nip.GetValue()
         monto = float(self.text_monto.GetValue())
         referencia = self.text_referencia.GetValue()
@@ -64,4 +93,10 @@ class PagoServicioConTarjeta(wx.Frame):
             wx.MessageBox(str(e), 'Error', wx.OK | wx.ICON_ERROR)
 
     def volver(self, event):
+        """
+        Cierra la ventana y vuelve al menú principal.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         self.Close()
