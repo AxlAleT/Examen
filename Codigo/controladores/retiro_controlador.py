@@ -33,7 +33,7 @@ class RetiroControlador():
                 raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de tarjeta de débito incorrecto")
             if not tarjeta_debito.check_nip(nip):
                 raise excepciones_tarjeta.NipIncorrecto("NIP incorrecto")
-            if tarjeta_debito.Saldo < monto:
+            if tarjeta_debito.Saldo <= monto:
                 raise excepciones_tarjeta.SaldoInsuficiente("Saldo insuficiente para realizar el retiro")
             if not Billete.puede_dar_monto(session= sesion, monto= monto):
                 raise excepciones_billete.NoSePuedeDarMontoException

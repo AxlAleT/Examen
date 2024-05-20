@@ -7,6 +7,7 @@ class InsertarTarjeta(wx.Frame):
     def __init__(self, parent):
         super().__init__(parent, title='Insertar Tarjeta', size=(300, 200))
         self.parent = parent
+        self.numero_tarjeta = None  # Variable para almacenar el número de tarjeta
         panel = wx.Panel(self)
 
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -46,7 +47,8 @@ class InsertarTarjeta(wx.Frame):
             wx.MessageBox('NIP correcto', 'Éxito', wx.OK | wx.ICON_INFORMATION)
             self.Close()
             self.parent.Close()
-            menu_completo_frame = MenuCompleto(None)
+            # Aquí pasamos el número de tarjeta al Menú Completo
+            menu_completo_frame = MenuCompleto(None, numero_tarjeta=numero_tarjeta)
             menu_completo_frame.Show()
         except NipIncorrecto as e:
             wx.MessageBox('NIP incorrecto', 'Error', wx.OK | wx.ICON_ERROR)
