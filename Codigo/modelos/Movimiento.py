@@ -3,9 +3,8 @@ from bd.base import Base
 from sqlalchemy.orm import relationship
 from modelos.Servicio import Servicio
 
-
 class Tipo_Movimiento(Base):
-        """
+    """
     Clase que representa los tipos de movimiento en la base de datos.
 
     Attributes:
@@ -18,9 +17,8 @@ class Tipo_Movimiento(Base):
     Tipo = Column(String(20), nullable=False)
     Descripcion = Column(String(100))
 
-
 class Movimiento(Base):
-        """
+    """
     Clase que representa un movimiento financiero en la base de datos.
 
     Attributes:
@@ -39,7 +37,7 @@ class Movimiento(Base):
     Tipo_Movimiento = relationship(Tipo_Movimiento)
 
     def __str__(self):
-             """
+        """
         Método para obtener una representación de cadena del movimiento.
 
         Returns:
@@ -47,9 +45,8 @@ class Movimiento(Base):
         """
         return f"Movimiento(ID_Movimiento={self.ID_Movimiento}, Fecha={self.Fecha}, Monto={self.Monto})"
 
-
 class MovimientoPagoServicio(Base):
-     """
+    """
     Clase que representa un movimiento de pago de servicio en la base de datos.
 
     Attributes:
@@ -69,7 +66,7 @@ class MovimientoPagoServicio(Base):
     Referencia = Column(String)
 
     def __str__(self):
-            """
+        """
         Método para obtener una representación de cadena del movimiento de pago de servicio.
 
         Returns:

@@ -1,10 +1,9 @@
 from sqlalchemy import Column, Integer, CheckConstraint
 from bd.base import Base
-from sqlalchemy import desc
 from excepciones.excepciones_billete import DenominacionNoExistente
 
 class Billete(Base):
-      """
+    """
     Clase que representa un billete en la base de datos.
 
     Attributes:
@@ -20,7 +19,7 @@ class Billete(Base):
 
     @staticmethod
     def agregar_billete(denominacion, cantidad, sesion):
-             """
+        """
         Agrega billetes a la base de datos.
 
         Args:
@@ -43,7 +42,7 @@ class Billete(Base):
             raise DenominacionNoExistente(f"No se puede introducir billete de {denominacion} porque no existe en los registros.")
 
     def puede_dar_monto(self, session, monto):
-           """
+        """
         Verifica si es posible entregar un monto específico utilizando los billetes disponibles.
 
         Args:
@@ -54,11 +53,10 @@ class Billete(Base):
             bool: True si es posible entregar el monto, False si no es posible.
         """
         billetes = session.query(Billete).all()
-        return Billete._puede_dar_monto_con_billetes(billetes= billetes,monto= monto)
-    
+        return Billete._puede_dar_monto_con_billetes(billetes=billetes, monto=monto)
 
     def _puede_dar_monto_con_billetes(billetes, monto):
-             """
+        """
         Función interna para verificar si es posible entregar un monto específico utilizando los billetes disponibles.
 
         Args:
@@ -81,10 +79,10 @@ class Billete(Base):
                 billete.Cantidad += 1
 
         return False
-    
+
     @staticmethod
     def dar_monto_mas_eficiente(session, monto):
-             """
+        """
         Encuentra la combinación más eficiente de billetes para entregar un monto específico.
 
         Args:
@@ -106,7 +104,7 @@ class Billete(Base):
 
     @staticmethod
     def _dar_monto_programacion_dinamica_con_billetes(billetes, monto):
-          """
+        """
         Utiliza programación dinámica para encontrar la combinación más eficiente de billetes para entregar un monto específico.
 
         Args:
@@ -130,5 +128,5 @@ class Billete(Base):
                         nueva_cantidad = min(billete.Cantidad, monto // billete.Denominacion)
                         if dp[current_monto] is None or len(dp[previous_monto]) + 1 < len(dp[current_monto]):
                             dp[current_monto] = dp[previous_monto] + [(billete, nueva_cantidad)]
-        
+
         return dp[monto]

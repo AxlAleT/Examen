@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String
 from bd.base import Base
 
 class Servicio(Base):
-      """
+    """
     Clase que representa un servicio en la base de datos.
 
     Attributes:

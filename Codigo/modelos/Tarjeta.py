@@ -6,7 +6,7 @@ from excepciones import excepciones_tarjeta
 import bcrypt
 
 class Tarjeta_Debito(Base):
-        """
+    """
     Clase que representa una tarjeta de débito en la base de datos.
 
     Attributes:

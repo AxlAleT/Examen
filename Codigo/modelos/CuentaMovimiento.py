@@ -5,7 +5,7 @@ from modelos.Movimiento import Movimiento
 from bd.base import Base
 
 class Cuenta_Movimiento(Base):
-        """
+    """
     Clase que representa la relación entre una cuenta y un movimiento en la base de datos.
 
     Attributes:
