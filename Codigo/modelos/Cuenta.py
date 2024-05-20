@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String
 from bd.base import Base
 
 class Cuenta(Base):
-     """
+    """
     Clase que representa una cuenta en la base de datos.
 
     Attributes:
@@ -17,7 +17,7 @@ class Cuenta(Base):
     Direccion = Column(String(300), nullable=False)
 
     def __str__(self):
-         """
+        """
         Método para obtener una representación de cadena de la cuenta.
 
         Returns:
