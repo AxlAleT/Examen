@@ -1,11 +1,30 @@
 import wx
 from controladores.retiro_controlador import RetiroControlador
-from excepciones.excepciones_tarjeta import NipIncorrecto
-from excepciones.excepciones_tarjeta import SaldoInsuficiente
+from excepciones.excepciones_tarjeta import NipIncorrecto, SaldoInsuficiente
 from excepciones.excepciones_billete import NoSePuedeDarMontoException
 
 class Retiro(wx.Frame):
+    """
+    Clase que representa la ventana para retirar efectivo en un cajero automático.
+
+    Attributes:
+        parent (wx.Window): La ventana principal o padre de esta ventana.
+        numero_tarjeta (str): El número de tarjeta asociado al retiro.
+
+    Methods:
+        __init__(parent, numero_tarjeta): Inicializa la ventana de retiro de efectivo.
+        retirar_efectivo(event): Realiza el retiro de efectivo.
+        volver_menu_principal(event): Cierra la ventana y vuelve al menú principal.
+    """
+
     def __init__(self, parent, numero_tarjeta=None):
+        """
+        Inicializa la ventana de retiro de efectivo.
+
+        Args:
+            parent (wx.Window): La ventana principal o padre de esta ventana.
+            numero_tarjeta (str): El número de tarjeta asociado al retiro.
+        """
         super().__init__(parent, title='Retiro de Efectivo', size=(300, 200))
         self.numero_tarjeta = numero_tarjeta
         panel = wx.Panel(self)
@@ -39,6 +58,12 @@ class Retiro(wx.Frame):
         panel.SetSizer(vbox)
 
     def retirar_efectivo(self, event):
+        """
+        Realiza el retiro de efectivo.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         montoString = self.text_monto.GetValue()
         nip = self.text_nip.GetValue()
         monto = int(montoString)
@@ -55,11 +80,36 @@ class Retiro(wx.Frame):
             wx.MessageBox('No hay billetes disponibles para esa cantidad', 'Error', wx.OK | wx.ICON_ERROR)
 
     def volver_menu_principal(self, event):
+        """
+        Cierra la ventana y vuelve al menú principal.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         self.Close() 
         
 
 class MostrarBilletes(wx.Frame):
+    """
+    Clase que representa la ventana para mostrar los billetes entregados después de un retiro de efectivo.
+
+    Attributes:
+        parent (wx.Window): La ventana principal o padre de esta ventana.
+        billetes (list): Una lista de tuplas que contienen la denominación y cantidad de billetes.
+
+    Methods:
+        __init__(parent, billetes): Inicializa la ventana para mostrar billetes.
+        cerrar_frame(event): Cierra la ventana de mostrar billetes.
+    """
+
     def __init__(self, parent, billetes):
+        """
+        Inicializa la ventana para mostrar los billetes entregados después de un retiro de efectivo.
+
+        Args:
+            parent (wx.Window): La ventana principal o padre de esta ventana.
+            billetes (list): Una lista de tuplas que contienen la denominación y cantidad de billetes.
+        """
         super().__init__(parent, title='Mostrar Billetes', size=(300, 400))
         panel = wx.Panel(self)
 
@@ -87,4 +137,10 @@ class MostrarBilletes(wx.Frame):
         self.Show()
 
     def cerrar_frame(self, event):
+        """
+        Cierra la ventana de mostrar billetes.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         self.Close()
