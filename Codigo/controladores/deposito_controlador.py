@@ -4,6 +4,9 @@ from main import engine
 from excepciones.excepciones_tarjeta import NumeroTarjetaIncorrecto, NipIncorrecto, SaldoInsuficiente
 from excepciones.excepciones_billete import NoSePuedeDarMontoException
 from modelos.Billete import Billete
+from modelos.CuentaMovimiento import Cuenta_Movimiento
+from modelos.Movimiento import Movimiento, Tipo_Movimiento
+from datetime import datetime
 
 class DepositoControlador(): 
     
@@ -22,6 +25,23 @@ class DepositoControlador():
 
             # Realizar el depósito
             tarjeta_credito.Saldo += monto
+
+            # Crear el movimiento de depósito
+            tipo_deposito = DepositoControlador.sesion.query(Tipo_Movimiento).filter_by(Tipo='Depósito de efectivo').first()
+            movimiento = Movimiento(
+                Fecha=datetime.now(),
+                Monto=monto,
+                ID_Tipo_Movimiento=tipo_deposito.ID_Tipo_Movimiento
+            )
+            DepositoControlador.sesion.add(movimiento)
+
+            # Relacionar el movimiento con la cuenta
+            cuenta_movimiento = Cuenta_Movimiento(
+                Num_Cuenta=tarjeta_credito.Num_Cuenta,
+                Movimiento=movimiento
+            )
+            DepositoControlador.sesion.add(cuenta_movimiento)
+
             DepositoControlador.sesion.commit()
             return True
         
@@ -35,6 +55,23 @@ class DepositoControlador():
 
             # Realizar el depósito
             tarjeta_debito.Saldo += monto
+
+            # Crear el movimiento de depósito
+            tipo_deposito = DepositoControlador.sesion.query(Tipo_Movimiento).filter_by(Tipo='Depósito de efectivo').first()
+            movimiento = Movimiento(
+                Fecha=datetime.now(),
+                Monto=monto,
+                ID_Tipo_Movimiento=tipo_deposito.ID_Tipo_Movimiento
+            )
+            DepositoControlador.sesion.add(movimiento)
+
+            # Relacionar el movimiento con la cuenta
+            cuenta_movimiento = Cuenta_Movimiento(
+                Num_Cuenta=tarjeta_debito.Num_Cuenta,
+                Movimiento=movimiento
+            )
+            DepositoControlador.sesion.add(cuenta_movimiento)
+
             DepositoControlador.sesion.commit()
             return True
         
