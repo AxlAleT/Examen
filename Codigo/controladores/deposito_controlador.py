@@ -9,12 +9,34 @@ from modelos.Movimiento import Movimiento, Tipo_Movimiento
 from datetime import datetime
 
 class DepositoControlador(): 
+    """
+    Controlador para la gestión de depósitos en tarjetas.
+
+    Attributes:
+        Session (sqlalchemy.orm.session.sessionmaker): Sesión para la conexión a la base de datos.
+        sesion: Sesión activa para realizar operaciones en la base de datos.
+    """
     
     Session = sessionmaker(bind=engine)
     sesion = Session()
 
     @staticmethod
     def depositar(num_tarjeta, monto, nip):
+        """
+        Realiza un depósito de efectivo en una tarjeta.
+
+        Args:
+            num_tarjeta (str): Número de tarjeta.
+            monto (float): Monto a depositar.
+            nip (str): NIP de la tarjeta.
+
+        Raises:
+            NumeroTarjetaIncorrecto: Si el número de tarjeta es incorrecto.
+            NipIncorrecto: Si el NIP es incorrecto.
+
+        Returns:
+            bool: True si el depósito se realizó con éxito, False en caso contrario.
+        """
         # Verificar si es una tarjeta de crédito válida
         if Tarjeta_Credito.validar_Tarjeta(num_tarjeta):
             tarjeta_credito = Tarjeta_Credito.obtener_tarjeta_Credito_numero(num_tarjeta, DepositoControlador.sesion)
