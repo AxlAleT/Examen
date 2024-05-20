@@ -1,15 +1,36 @@
-# pago_servicio_sin_tarjeta.py
 import wx
 from controladores.pago_servicio_controlador import PagoServicioControlador
 from excepciones.excepciones_billete import DenominacionNoExistente
 
 class PagoServicioSinTarjeta(wx.Frame):
+    """
+    Clase que representa la ventana para realizar un pago de servicio sin tarjeta en un cajero automático.
+
+    Attributes:
+        parent (wx.Window): La ventana padre de esta ventana.
+        num_convenio (int): El número de convenio del servicio al que se realizará el pago.
+
+    Methods:
+        __init__(parent, num_convenio): Inicializa la ventana de pago de servicio sin tarjeta.
+        InitUI(): Inicializa la interfaz de usuario.
+        pagar_servicio(event): Realiza el pago del servicio.
+        volver_menu_principal(event): Cierra la ventana y vuelve al menú principal.
+    """
+
     def __init__(self, parent, num_convenio):
+        """
+        Inicializa la ventana de pago de servicio sin tarjeta.
+
+        Args:
+            parent (wx.Window): La ventana padre de esta ventana.
+            num_convenio (int): El número de convenio del servicio al que se realizará el pago.
+        """
         super().__init__(parent, title='Pago de Servicio sin Tarjeta', size=(400, 250))
         self.num_convenio = num_convenio
         self.InitUI()
 
     def InitUI(self):
+        """Inicializa la interfaz de usuario."""
         panel = wx.Panel(self)
         vbox = wx.BoxSizer(wx.VERTICAL)
 
@@ -41,6 +62,12 @@ class PagoServicioSinTarjeta(wx.Frame):
         panel.SetSizer(vbox)
 
     def pagar_servicio(self, event):
+        """
+        Realiza el pago del servicio.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         try:
             monto = float(self.text_monto.GetValue())
             referencia = self.text_referencia.GetValue()
@@ -53,4 +80,11 @@ class PagoServicioSinTarjeta(wx.Frame):
             wx.MessageBox('Error inesperado: ' + str(e), 'Error', wx.OK | wx.ICON_ERROR)
 
     def volver_menu_principal(self, event):
+        """
+        Cierra la ventana y vuelve al menú principal.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         self.Close()
+
