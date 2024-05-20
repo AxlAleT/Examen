@@ -104,4 +104,4 @@ class Tarjeta_Credito(Base):
                 raise excepciones_tarjeta.NipIncorrecto("NIP incorrecto")
             return tarjeta_credito
         else:
-            raise excepciones_tarjetaNumeroTarjetaIncorrecto("Número de tarjeta de crédito incorrecto")
+            raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de tarjeta de crédito incorrecto")

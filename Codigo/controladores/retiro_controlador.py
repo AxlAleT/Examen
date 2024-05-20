@@ -4,6 +4,7 @@ from excepciones import excepciones_tarjeta
 from excepciones import excepciones_billete
 from modelos.Billete import Billete
 from bd.db_controlador import sesion
+from decimal import Decimal
 
 class RetiroControlador(): 
 
@@ -16,7 +17,7 @@ class RetiroControlador():
                 raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de tarjeta de crédito incorrecto")
             if not tarjeta_credito.check_nip(nip):
                 raise excepciones_tarjeta.NipIncorrecto("NIP incorrecto")
-            if (tarjeta_credito.Saldo + monto) > tarjeta_credito.LimiteCredito:
+            if (float(tarjeta_credito.Saldo) + monto) > float(tarjeta_credito.LimiteCredito):
                 raise excepciones_tarjeta.SaldoInsuficiente("Saldo insuficiente para realizar el retiro")
             if not Billete.puede_dar_monto(session= sesion, monto= monto):
                 raise excepciones_billete.NoSePuedeDarMontoException
@@ -33,9 +34,9 @@ class RetiroControlador():
                 raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de tarjeta de débito incorrecto")
             if not tarjeta_debito.check_nip(nip):
                 raise excepciones_tarjeta.NipIncorrecto("NIP incorrecto")
-            if tarjeta_debito.Saldo <= monto:
+            if float(tarjeta_debito.Saldo) < monto:  # Verificar saldo
                 raise excepciones_tarjeta.SaldoInsuficiente("Saldo insuficiente para realizar el retiro")
-            if not Billete.puede_dar_monto(session= sesion, monto= monto):
+            if not Billete.puede_dar_monto(self= None,session = sesion, monto = monto):
                 raise excepciones_billete.NoSePuedeDarMontoException
 
             billetes = Billete.dar_monto_mas_eficiente(sesion, monto)
