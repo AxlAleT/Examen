@@ -1,5 +1,6 @@
 import wx
 from vistas.retiro_vista import Retiro
+from vistas.cambio_nip_gui import CambioNIP
 
 class MenuCompleto(wx.Frame):
     def __init__(self, parent, numero_tarjeta=None):
@@ -44,3 +45,6 @@ class MenuCompleto(wx.Frame):
     def consultar_saldo_movimientos(self, event):
         print("Consulta de saldo/movimientos")
         # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+    
+    def cambiar_nip(self, event):
+        nip_frame = CambioNIP(self, numero_tarjeta = self.numero_tarjeta)

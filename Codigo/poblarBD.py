@@ -66,7 +66,6 @@ def poblar(engine):
 
     session.commit()
 
-
     servicios = [
         {"Num_Convenio": 100001, "NombreServicio": "Luz", "Descripcion": "Servicio de electricidad"},
         {"Num_Convenio": 100002, "NombreServicio": "Agua", "Descripcion": "Servicio de suministro de agua potable"},
@@ -88,13 +87,13 @@ def poblar(engine):
     # Confirmar cambios
     session.commit()
 
-
     tipos_movimiento = [
         Tipo_Movimiento(Tipo='Retiro de efectivo', Descripcion='Retiro de efectivo en cajero automático'),
         Tipo_Movimiento(Tipo='Depósito de efectivo', Descripcion='Depósito de efectivo en cuenta'),
         Tipo_Movimiento(Tipo='Pago de tarjeta de crédito', Descripcion='Pago de la tarjeta de crédito asociada'),
         Tipo_Movimiento(Tipo='Pago de servicios', Descripcion='Pago de servicios como luz, agua, etc.'),
-        Tipo_Movimiento(Tipo='Consulta de saldo', Descripcion='Consulta del saldo disponible en la cuenta')
+        Tipo_Movimiento(Tipo='Consulta de saldo', Descripcion='Consulta del saldo disponible en la cuenta'),
+        Tipo_Movimiento(Tipo="Cambio de NIP", Descripcion="Cambiar el NIP actual")
     ]
 
     # Agregar tipos de movimiento a la sesión
@@ -105,8 +104,9 @@ def poblar(engine):
     tipo_retiro_efectivo = session.query(Tipo_Movimiento).filter_by(Tipo='Retiro de efectivo').first().ID_Tipo_Movimiento
     tipo_deposito_efectivo = session.query(Tipo_Movimiento).filter_by(Tipo='Depósito de efectivo').first().ID_Tipo_Movimiento
     tipo_pago_tarjeta_credito = session.query(Tipo_Movimiento).filter_by(Tipo='Pago de tarjeta de crédito').first().ID_Tipo_Movimiento
+    tipo_pago_servicios = session.query(Tipo_Movimiento).filter_by(Tipo='Pago de servicios').first().ID_Tipo_Movimiento
     tipo_consulta_saldo = session.query(Tipo_Movimiento).filter_by(Tipo='Consulta de saldo').first().ID_Tipo_Movimiento
-
+    tipo_cambio_nip = session.query(Tipo_Movimiento).filter_by(Tipo='Cambio de NIP').first().ID_Tipo_Movimiento
 
     # Agregar movimientos a las cuentas y crear la relación con la tabla intermedia
     for cuenta in session.query(Cuenta).all():
@@ -150,4 +150,36 @@ def poblar(engine):
     session.commit()
 
     # Cerrar la sesión
+    session.close()
+
+def cambiar_nip(engine, num_cuenta, nuevo_nip):
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    cuenta = session.query(Cuenta).filter_by(Num_Cuenta=num_cuenta).first()
+    if not cuenta:
+        print(f'Cuenta con número {num_cuenta} no encontrada.')
+        session.close()
+        return
+
+    tarjeta_debito = session.query(Tarjeta_Debito).filter_by(Num_Cuenta=num_cuenta).first()
+    if tarjeta_debito:
+        tarjeta_debito.set_nip(nuevo_nip)
+        session.add(tarjeta_debito)
+
+        movimiento_cambio_nip = Movimiento(
+            Fecha=datetime.now(),
+            Monto=0.0,  # No hay monto en cambio de NIP
+            ID_Tipo_Movimiento=session.query(Tipo_Movimiento).filter_by(Tipo='Cambio de NIP').first().ID_Tipo_Movimiento
+        )
+        session.add(movimiento_cambio_nip)
+
+        cuenta_movimiento_cambio_nip = Cuenta_Movimiento(Cuenta=cuenta, Movimiento=movimiento_cambio_nip)
+        session.add(cuenta_movimiento_cambio_nip)
+
+        session.commit()
+        print(f'NIP cambiado exitosamente para la cuenta {num_cuenta}.')
+    else:
+        print(f'Tarjeta de débito para la cuenta {num_cuenta} no encontrada.')
+
     session.close()
