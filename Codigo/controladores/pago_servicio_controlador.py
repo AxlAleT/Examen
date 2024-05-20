@@ -9,9 +9,33 @@ from modelos.CuentaMovimiento import Cuenta_Movimiento
 from modelos.Movimiento import MovimientoPagoServicio
 
 class PagoServicioControlador(): 
+    """
+    Controlador para la gestión de pagos de servicios.
+
+    Attributes:
+        None
+    """
 
     @staticmethod
     def pagar_servicio_con_tarjeta(num_tarjeta, monto, nip, num_convenio, referencia):
+        """
+        Realiza un pago de servicio con tarjeta.
+
+        Args:
+            num_tarjeta (str): Número de tarjeta.
+            monto (float): Monto del pago.
+            nip (str): NIP de la tarjeta.
+            num_convenio (str): Número de convenio del servicio.
+            referencia (str): Referencia del pago.
+
+        Raises:
+            excepciones_tarjeta.NumeroTarjetaIncorrecto: Si el número de tarjeta es incorrecto.
+            excepciones_tarjeta.NipIncorrecto: Si el NIP es incorrecto.
+            excepciones_tarjeta.SaldoInsuficiente: Si el saldo de la tarjeta es insuficiente para el pago.
+
+        Returns:
+            MovimientoPagoServicio: Objeto del movimiento de pago de servicio.
+        """
         # Verificar si es una tarjeta de crédito válida
         if Tarjeta_Credito.validar_Tarjeta(num_tarjeta):
             tarjeta_credito = Tarjeta_Credito.obtener_tarjeta_Credito_numero(num_tarjeta, sesion)
@@ -68,6 +92,20 @@ class PagoServicioControlador():
 
     @staticmethod
     def pagar_servicio_sin_tarjeta(monto, num_convenio, referencia):
+        """
+        Realiza un pago de servicio sin tarjeta.
+
+        Args:
+            monto (float): Monto del pago.
+            num_convenio (str): Número de convenio del servicio.
+            referencia (str): Referencia del pago.
+
+        Raises:
+            excepciones_billete.DenominacionNoExistente: Si la denominación del billete no existe.
+
+        Returns:
+            MovimientoPagoServicio: Objeto del movimiento de pago de servicio.
+        """
         # Lista de denominaciones en orden descendente
         denominaciones = [1000, 500, 200, 100, 50, 20]
 
