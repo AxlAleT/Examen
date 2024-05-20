@@ -96,11 +96,11 @@ class Billete(Base):
             Si no es posible entregar el monto con los billetes disponibles, devuelve None.
         """
         billetes = session.query(Billete).all()
-        resultado = Billete._dar_monto_programacion_dinamica_con_billetes(billetes, monto)
-        if resultado is None:
+        denominaciones = [(billete.Denominacion, billete.Cantidad) for billete in billetes]
+        resultado = Billete.calcular_cambio(denominaciones, monto)
+        if not resultado:
             return None
-        else:
-            return [(billete.Denominacion, cantidad) for billete, cantidad in resultado]
+        return resultado
 
     @staticmethod
     def _dar_monto_programacion_dinamica_con_billetes(billetes, monto):
@@ -131,14 +131,29 @@ class Billete(Base):
 
         return dp[monto]
 
-    def calcular_cambio(denominaciones, cantidad, monto):
+    @staticmethod
+    def calcular_cambio(denominaciones, monto):
+        """
+        Calcula el cambio necesario para un monto específico utilizando las denominaciones disponibles.
+
+        Args:
+            denominaciones (list): Lista de tuplas que contienen las denominaciones y la cantidad disponible de cada una.
+            monto (int): Monto que se desea entregar.
+
+        Returns:
+            list: Lista de tuplas que contienen la denominación y la cantidad necesaria para entregar el monto.
+
+        Notes:
+            Si no es posible entregar el monto con las denominaciones disponibles, devuelve una lista vacía.
+        """
         cambio = []
         i = len(denominaciones) - 1  # Comenzamos desde la denominación más grande
         while monto > 0 and i >= 0:
-            cant_billetes = min(monto // denominaciones[i][0], cantidad[i]) # Calculamos la cantidad de billetes de esta denominación que podemos usar
-            monto -= cant_billetes * denominaciones[i][0]  # Restamos el valor de los billetes usados del monto total
-            cantidad[i] -= cant_billetes  # Actualizamos la cantidad de billetes restantes de esta denominación
-            cambio.append((denominaciones[i][0], cant_billetes))  # Añadimos los billetes utilizados al cambio
+            denom, cant = denominaciones[i]
+            cant_billetes = min(monto // denom, cant)  # Calculamos la cantidad de billetes de esta denominación que podemos usar
+            monto -= cant_billetes * denom  # Restamos el valor de los billetes usados del monto total
+            denominaciones[i] = (denom, cant - cant_billetes)  # Actualizamos la cantidad de billetes restantes de esta denominación
+            cambio.append((denom, cant_billetes))  # Añadimos los billetes utilizados al cambio
             i -= 1  # Pasamos a la siguiente denominación más pequeña
         if monto > 0:
             print("No se puede dar cambio completo.")
