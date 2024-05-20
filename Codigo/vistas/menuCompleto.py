@@ -3,7 +3,25 @@ from vistas.retiro_vista import Retiro
 from vistas.cambio_nip_gui import CambioNIP
 
 class MenuCompleto(wx.Frame):
+    """Clase para el menú completo de la aplicación.
+
+    Esta clase representa la ventana principal del menú completo, donde el usuario puede
+    seleccionar diversas operaciones, como retiro de efectivo, depósito de efectivo, pago
+    de tarjeta de crédito, pago de servicios, consulta de saldo y movimientos, y salir.
+
+    Args:
+        parent (wx.Window): La ventana principal de la aplicación.
+        numero_tarjeta (str): El número de tarjeta del usuario, opcional.
+
+    """
     def __init__(self, parent, numero_tarjeta=None):
+        """Inicializa la ventana del menú completo.
+
+        Args:
+            parent (wx.Window): La ventana principal de la aplicación.
+            numero_tarjeta (str): El número de tarjeta del usuario, opcional.
+
+        """
         super().__init__(parent, title='Menú Completo', size=(300, 400))
         self.numero_tarjeta = numero_tarjeta  # Almacenar el número de tarjeta recibido
         panel = wx.Panel(self)
@@ -16,6 +34,7 @@ class MenuCompleto(wx.Frame):
             ("Pago de Tarjeta de Crédito", self.pagar_tarjeta_credito),
             ("Pago de Servicios", self.pagar_servicios),
             ("Consulta de Saldo/Movimientos", self.consultar_saldo_movimientos),
+            ("Salir", self.salir)  # Botón Salir
         ]
 
         for label, handler in buttons:
@@ -27,24 +46,80 @@ class MenuCompleto(wx.Frame):
         self.Show()
 
     def retirar_efectivo(self, event):
-        retiro_frame = Retiro(self, numero_tarjeta= self.numero_tarjeta)
+        """Método para manejar el evento de retiro de efectivo.
+
+        Este método crea y muestra la ventana de retiro de efectivo.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
+        retiro_frame = Retiro(self, numero_tarjeta=self.numero_tarjeta)
         retiro_frame.Show()
 
     def depositar_efectivo(self, event):
-        print("Depósito de efectivo")
-        # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+        """Método para manejar el evento de depósito de efectivo.
+
+        Este método crea y muestra la ventana de depósito de efectivo.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
+        from vistas.deposito_vista import Deposito
+        deposito = Deposito(self, numero_tarjeta= self.numero_tarjeta)
+        deposito.Show()
+
 
     def pagar_tarjeta_credito(self, event):
-        print("Pago de tarjeta de crédito")
-        # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+        """Método para manejar el evento de pago de tarjeta de crédito.
+
+        Este método crea y muestra la ventana de pago de tarjeta de crédito.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
+        from vistas.pago_TarjetaCredito_vista import PagoTarjetaCredito
+        pagoTarjetaCredito = PagoTarjetaCredito(self, self.numero_tarjeta)
+        pagoTarjetaCredito.Show()
 
     def pagar_servicios(self, event):
-        print("Pago de servicios")
-        # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+        """Método para manejar el evento de pago de servicios.
+
+        Este método crea y muestra la ventana de selección de servicio para el pago.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
+        from vistas.seleccionarServicio import SeleccionarServicioParaTarjeta
+        seleccionarServicioParaTarjeta = SeleccionarServicioParaTarjeta(self, num_tarjeta=self.numero_tarjeta)
+        seleccionarServicioParaTarjeta.Show()
 
     def consultar_saldo_movimientos(self, event):
+        """Método para manejar el evento de consulta de saldo y movimientos.
+
+        Este método realiza la operación de consulta de saldo y movimientos.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
         print("Consulta de saldo/movimientos")
         # Aquí puedes utilizar self.numero_tarjeta según sea necesario
     
     def cambiar_nip(self, event):
         nip_frame = CambioNIP(self, numero_tarjeta = self.numero_tarjeta)
+
+    def salir(self, event):
+        """Método para manejar el evento de salir.
+
+        Este método cierra la ventana actual.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
+        self.Close()  # Cierra la ventana actual
+

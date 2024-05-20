@@ -45,7 +45,6 @@ class Retiro(wx.Frame):
         try: 
             billetes = RetiroControlador.retirar(self.numero_tarjeta, monto, nip)
             self.Close()
-            self.parent.Close()
             mostrarBilletes = MostrarBilletes(None, billetes=billetes)
             mostrarBilletes.Show()
         except NipIncorrecto as e: 

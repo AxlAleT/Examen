@@ -5,6 +5,16 @@ from modelos.Movimiento import Movimiento
 from bd.base import Base
 
 class Cuenta_Movimiento(Base):
+    """
+    Clase que representa la relación entre una cuenta y un movimiento en la base de datos.
+
+    Attributes:
+        ID_Cuenta_Movimiento (int): Identificador único de la relación.
+        Num_Cuenta (int): Número de cuenta relacionado.
+        Cuenta (Cuenta): Objeto de cuenta relacionado.
+        ID_Movimiento (int): Identificador del movimiento relacionado.
+        Movimiento (Movimiento): Objeto de movimiento relacionado.
+    """
     __tablename__ = "Cuenta_Movimiento"
 
     ID_Cuenta_Movimiento = Column(Integer, primary_key=True, nullable=False, unique=True)
