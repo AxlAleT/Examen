@@ -37,8 +37,9 @@ class MenuCompleto(wx.Frame):
 
 
     def pagar_tarjeta_credito(self, event):
-        print("Pago de tarjeta de crédito")
-        # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+        from vistas.pago_TarjetaCredito_vista import PagoTarjetaCredito
+        pagoTarjetaCredito = PagoTarjetaCredito(self, self.numero_tarjeta)
+        pagoTarjetaCredito.Show()
 
     def pagar_servicios(self, event):
         from vistas.seleccionarServicio import SeleccionarServicioParaTarjeta

@@ -23,8 +23,8 @@ class MenuPrincipal(wx.Frame):
         self.Show()
 
     def depositar_efectivo(self, event):
-        from vistas.deposito_vista import Deposito
-        deposito = Deposito(parent=self)
+        from vistas.deposito_sinTarjeta_vista import DepositoSinTarjeta
+        deposito = DepositoSinTarjeta(parent=self)
         deposito.Show()
 
     def pagar_servicios(self, event):
