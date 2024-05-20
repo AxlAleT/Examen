@@ -1,6 +1,5 @@
 from modelos.Tarjeta import Tarjeta_Credito, Tarjeta_Debito
 from sqlalchemy.orm import sessionmaker
-from main import engine
 from excepciones import excepciones_tarjeta
 from excepciones import excepciones_billete
 from modelos.Billete import Billete
