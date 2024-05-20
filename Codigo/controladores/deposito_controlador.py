@@ -1,6 +1,6 @@
 from modelos.Tarjeta import Tarjeta_Credito, Tarjeta_Debito
 from sqlalchemy.orm import sessionmaker
-from main import engine
+from bd.db_controlador import engine
 from excepciones.excepciones_tarjeta import NumeroTarjetaIncorrecto, NipIncorrecto, SaldoInsuficiente
 from excepciones.excepciones_billete import NoSePuedeDarMontoException
 from modelos.Billete import Billete

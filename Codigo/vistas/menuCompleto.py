@@ -31,8 +31,10 @@ class MenuCompleto(wx.Frame):
         retiro_frame.Show()
 
     def depositar_efectivo(self, event):
-        print("Depósito de efectivo")
-        # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+        from vistas.deposito_vista import Deposito
+        deposito = Deposito()
+        deposito.show()
+
 
     def pagar_tarjeta_credito(self, event):
         print("Pago de tarjeta de crédito")
@@ -49,7 +51,3 @@ class MenuCompleto(wx.Frame):
     def salir(self, event):
         self.Close()  # Cierra la ventana actual
 
-if __name__ == "__main__":
-    app = wx.App(False)
-    frame = MenuCompleto(None)
-    app.MainLoop()
