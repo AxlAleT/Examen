@@ -3,7 +3,25 @@ from controladores.saldosmov_controlador import ConsultaControlador
 from excepciones.excepciones_tarjeta import NumeroTarjetaIncorrecto
 
 class ConsultaSaldo(wx.Frame):
+    """
+    Clase que representa la ventana para consultar el saldo de una cuenta.
+
+    Attributes:
+        parent (wx.Window): La ventana principal o padre de esta ventana.
+
+    Methods:
+        __init__(parent): Inicializa la ventana de consulta de saldo.
+        consultar_saldo(event): Consulta el saldo de la cuenta ingresada.
+        volver_menu_principal(event): Cierra la ventana y vuelve al menú principal.
+    """
+
     def __init__(self, parent):
+        """
+        Inicializa la ventana de consulta de saldo.
+
+        Args:
+            parent (wx.Window): La ventana principal o padre de esta ventana.
+        """
         super().__init__(parent, title='Consulta de Saldo', size=(300, 200))
         panel = wx.Panel(self)
 
@@ -29,6 +47,12 @@ class ConsultaSaldo(wx.Frame):
         panel.SetSizer(vbox)
 
     def consultar_saldo(self, event):
+        """
+        Consulta el saldo de la cuenta ingresada.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         numero_cuenta = self.text_numero_cuenta.GetValue()
         try: 
             saldo = ConsultaControlador.consultar_saldo(numero_cuenta)
@@ -37,10 +61,34 @@ class ConsultaSaldo(wx.Frame):
             wx.MessageBox('Número de cuenta incorrecto', 'Error', wx.OK | wx.ICON_ERROR)
 
     def volver_menu_principal(self, event):
+        """
+        Cierra la ventana y vuelve al menú principal.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         self.Close()
 
 class ConsultaMovimientos(wx.Frame):
+    """
+    Clase que representa la ventana para consultar los movimientos de una cuenta.
+
+    Attributes:
+        parent (wx.Window): La ventana principal o padre de esta ventana.
+
+    Methods:
+        __init__(parent): Inicializa la ventana de consulta de movimientos.
+        consultar_movimientos(event): Consulta los movimientos de la cuenta ingresada.
+        volver_menu_principal(event): Cierra la ventana y vuelve al menú principal.
+    """
+
     def __init__(self, parent):
+        """
+        Inicializa la ventana de consulta de movimientos.
+
+        Args:
+            parent (wx.Window): La ventana principal o padre de esta ventana.
+        """
         super().__init__(parent, title='Consulta de Movimientos', size=(400, 300))
         panel = wx.Panel(self)
 
@@ -66,6 +114,12 @@ class ConsultaMovimientos(wx.Frame):
         panel.SetSizer(vbox)
 
     def consultar_movimientos(self, event):
+        """
+        Consulta los movimientos de la cuenta ingresada.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         numero_cuenta = self.text_numero_cuenta.GetValue()
         try: 
             movimientos = ConsultaControlador.consultar_movimientos(numero_cuenta)
@@ -78,4 +132,10 @@ class ConsultaMovimientos(wx.Frame):
             wx.MessageBox('Número de cuenta incorrecto', 'Error', wx.OK | wx.ICON_ERROR)
 
     def volver_menu_principal(self, event):
+        """
+        Cierra la ventana y vuelve al menú principal.
+
+        Args:
+            event: El evento que activa la función (en este caso, el clic en el botón).
+        """
         self.Close()
