@@ -1,7 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from excepciones import excepciones_tarjeta
-from modelos.Cuenta import Cuenta
-from modelos.Movimiento import Movimiento
+from modelos.Account import Account
+from modelos.Movement import Movement
 from bd.db_controlador import engine, sesion
 
 class ConsultaControlador:

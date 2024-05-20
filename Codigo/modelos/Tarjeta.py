@@ -115,7 +115,17 @@ class Tarjeta_Debito(Base):
         else:
             raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de tarjeta de crédito incorrecto")
 
+    def obtener_tarjeta_credito_asociada(self, sesion):
+        """
+        Obtiene la tarjeta de crédito asociada a esta tarjeta de débito.
 
+        Args:
+            sesion: Sesión de base de datos.
+
+        Returns:
+            Tarjeta_Credito: Objeto de la tarjeta de crédito si se encuentra, None de lo contrario.
+        """
+        return sesion.query(Tarjeta_Credito).filter_by(Num_Cuenta=self.Num_Cuenta).first()
     
 
     
