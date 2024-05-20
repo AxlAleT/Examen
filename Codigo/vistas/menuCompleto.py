@@ -34,6 +34,7 @@ class MenuCompleto(wx.Frame):
             ("Pago de Tarjeta de Crédito", self.pagar_tarjeta_credito),
             ("Pago de Servicios", self.pagar_servicios),
             ("Consulta de Saldo/Movimientos", self.consultar_saldo_movimientos),
+            ("Cambiar NIP", self.cambiar_nip),
             ("Salir", self.salir)  # Botón Salir
         ]
 
@@ -111,6 +112,7 @@ class MenuCompleto(wx.Frame):
     
     def cambiar_nip(self, event):
         nip_frame = CambioNIP(self, numero_tarjeta = self.numero_tarjeta)
+        nip_frame.Show()
 
     def salir(self, event):
         """Método para manejar el evento de salir.
