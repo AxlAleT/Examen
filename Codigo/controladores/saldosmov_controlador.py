@@ -1,7 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from excepciones import excepciones_tarjeta
-from modelos.Account import Account
-from modelos.Movement import Movement
+from modelos.Cuenta import Cuenta
+from modelos.Movimiento import Movimiento
 from bd.db_controlador import engine, sesion
 
 class ConsultaControlador:
@@ -12,7 +12,7 @@ class ConsultaControlador:
     @staticmethod
     def consultar_saldo(num_cuenta):
         # Método para consultar el saldo de una cuenta específica
-        cuenta = ConsultaControlador.sesion.query(Account).filter_by(account_number=num_cuenta).first()
+        cuenta = ConsultaControlador.sesion.query(Cuenta).filter_by(account_number=num_cuenta).first()
         if cuenta is None:
             raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de cuenta incorrecto")
         return cuenta.balance
@@ -20,7 +20,7 @@ class ConsultaControlador:
     @staticmethod
     def consultar_movimientos(num_cuenta):
         # Método para consultar los movimientos de una cuenta específica
-        cuenta = ConsultaControlador.sesion.query(Account).filter_by(account_number=num_cuenta).first()
+        cuenta = ConsultaControlador.sesion.query(Cuenta).filter_by(account_number=num_cuenta).first()
         if cuenta is None:
             raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de cuenta incorrecto")
         return cuenta.movements
@@ -36,8 +36,8 @@ class ConsultaVista:
     def mostrar_movimientos(movimientos):
         # Método para mostrar los movimientos de la cuenta
         print("Movimientos:")
-        for movimiento in movimientos:
-            print(f"  {movimiento.description}: ${movimiento.amount:.2f}")
+        for Movimiento in movimientos:
+            print(f"  {Movimiento.description}: ${Movimiento.amount:.2f}")
 
 if __name__ == "__main__":
     controlador = ConsultaControlador()
@@ -50,8 +50,8 @@ if __name__ == "__main__":
         saldo = controlador.consultar_saldo(num_cuenta)
         ConsultaVista.mostrar_saldo(saldo)
         
-        movimientos = controlador.consultar_movimientos(num_cuenta)
-        ConsultaVista.mostrar_movimientos(movimientos)
+        Movimiento = controlador.consultar_movimientos(num_cuenta)
+        ConsultaVista.mostrar_movimientos(Movimiento)
     except excepciones_tarjeta.NumeroTarjetaIncorrecto as e:
         # Manejo de errores si el número de cuenta es incorrecto
         print(e)
