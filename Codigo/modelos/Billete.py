@@ -130,3 +130,17 @@ class Billete(Base):
                             dp[current_monto] = dp[previous_monto] + [(billete, nueva_cantidad)]
 
         return dp[monto]
+
+    def calcular_cambio(denominaciones, cantidad, monto):
+        cambio = []
+        i = len(denominaciones) - 1  # Comenzamos desde la denominación más grande
+        while monto > 0 and i >= 0:
+            cant_billetes = min(monto // denominaciones[i][0], cantidad[i]) # Calculamos la cantidad de billetes de esta denominación que podemos usar
+            monto -= cant_billetes * denominaciones[i][0]  # Restamos el valor de los billetes usados del monto total
+            cantidad[i] -= cant_billetes  # Actualizamos la cantidad de billetes restantes de esta denominación
+            cambio.append((denominaciones[i][0], cant_billetes))  # Añadimos los billetes utilizados al cambio
+            i -= 1  # Pasamos a la siguiente denominación más pequeña
+        if monto > 0:
+            print("No se puede dar cambio completo.")
+            return []
+        return cambio
