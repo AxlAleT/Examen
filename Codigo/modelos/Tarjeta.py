@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, DECIMAL, ForeignKey, String
 from sqlalchemy.orm import relationship
 from modelos.Cuenta import Cuenta
 from bd.base import Base
+from excepciones import excepciones_tarjeta
 import bcrypt
 
 class Tarjeta_Debito(Base):
@@ -25,14 +26,11 @@ class Tarjeta_Debito(Base):
         return bcrypt.checkpw(nip.encode('utf-8'), self.nip_hash.encode('utf-8'))
     
     @classmethod
-    def obtener_tarjeta_Debito_numero(numero_tarjeta, sesion):
+    def obtener_tarjeta_Debito_numero(cls,numero_tarjeta, sesion):
         return sesion.query(Tarjeta_Debito).filter_by(NumeroTarjeta=numero_tarjeta).first()
     
     @staticmethod
     def validar_Tarjeta(num_tarjeta):
-        # Verificar si el argumento es un entero
-        if not isinstance(num_tarjeta, int):
-            return False
         
         # Convertir el entero a cadena para verificar la longitud y el prefijo
         tarjeta_str = str(num_tarjeta)
@@ -42,6 +40,18 @@ class Tarjeta_Debito(Base):
             return True
         else:
             return False
+    
+    @classmethod
+    def validar_y_obtener_tarjeta(cls, num_tarjeta, nip, sesion):
+        if cls.validar_Tarjeta(num_tarjeta):
+            tarjeta_credito = cls.obtener_tarjeta_Debito_numero(num_tarjeta, sesion)
+            if tarjeta_credito is None:
+                raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de tarjeta de crédito incorrecto")
+            if not tarjeta_credito.check_nip(nip):  
+                raise excepciones_tarjeta.NipIncorrecto("NIP incorrecto")
+            return tarjeta_credito
+        else:
+            raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de tarjeta de crédito incorrecto")
 
 
     
@@ -69,15 +79,12 @@ class Tarjeta_Credito(Base):
         return bcrypt.checkpw(nip.encode('utf-8'), self.nip_hash.encode('utf-8'))
     
     @classmethod
-    def obtener_tarjeta_Credito_numero(numero_tarjeta, sesion):
+    def obtener_tarjeta_Credito_numero(cls,numero_tarjeta, sesion):
         return sesion.query(Tarjeta_Credito).filter_by(NumeroTarjeta=numero_tarjeta).first()
     
     @staticmethod
     def validar_Tarjeta(num_tarjeta):
-        # Verificar si el argumento es un entero
-        if not isinstance(num_tarjeta, int):
-            return False
-        
+       
         # Convertir el entero a cadena para verificar la longitud y el prefijo
         tarjeta_str = str(num_tarjeta)
         
@@ -86,3 +93,15 @@ class Tarjeta_Credito(Base):
             return True
         else:
             return False
+        
+    @classmethod
+    def validar_y_obtener_tarjeta(cls, num_tarjeta, nip, sesion):
+        if cls.validar_Tarjeta(num_tarjeta):
+            tarjeta_credito = cls.obtener_tarjeta_Debito_numero(num_tarjeta, sesion)
+            if tarjeta_credito is None:
+                raise excepciones_tarjeta.NumeroTarjetaIncorrecto("Número de tarjeta de crédito incorrecto")
+            if not tarjeta_credito.check_nip(nip):  
+                raise excepciones_tarjeta.NipIncorrecto("NIP incorrecto")
+            return tarjeta_credito
+        else:
+            raise excepciones_tarjetaNumeroTarjetaIncorrecto("Número de tarjeta de crédito incorrecto")
