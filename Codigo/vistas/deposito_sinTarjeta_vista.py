@@ -3,7 +3,8 @@ from controladores.deposito_controlador import DepositoControlador
 from excepciones.excepciones_tarjeta import NumeroTarjetaIncorrecto
 
 class DepositoSinTarjeta(wx.Frame):
-      """Clase para la interfaz de depósito de efectivo sin tarjeta.
+    """
+      Clase para la interfaz de depósito de efectivo sin tarjeta.
 
     Esta clase representa la ventana de depósito de efectivo cuando no se tiene
     el número de tarjeta.
@@ -13,7 +14,8 @@ class DepositoSinTarjeta(wx.Frame):
 
     """
     def __init__(self, parent):
-          """Inicializa la ventana de depósito de efectivo sin tarjeta.
+         """
+          Inicializa la ventana de depósito de efectivo sin tarjeta.
 
         Args:
             parent (wx.Window): La ventana principal de la aplicación.
@@ -51,7 +53,8 @@ class DepositoSinTarjeta(wx.Frame):
         panel.SetSizer(vbox)
 
     def depositar_efectivo(self, event):
-          """Método para realizar el depósito de efectivo.
+         """
+          Método para realizar el depósito de efectivo.
 
         Este método se llama cuando se presiona el botón de depósito. Obtiene
         el número de tarjeta y el monto ingresados por el usuario, luego intenta
@@ -74,7 +77,8 @@ class DepositoSinTarjeta(wx.Frame):
             wx.MessageBox('Monto inválido', 'Error', wx.OK | wx.ICON_ERROR)
 
     def volver_menu_principal(self, event):
-         """Método para volver al menú principal.
+        """
+         Método para volver al menú principal.
 
         Este método se llama cuando se presiona el botón para volver al menú
         principal. Cierra la ventana de depósito de efectivo.
