@@ -8,7 +8,15 @@ from modelos.CuentaMovimiento import Cuenta_Movimiento
 from modelos.Movimiento import Movimiento, Tipo_Movimiento
 from datetime import datetime
 
-class DepositoControlador():
+class DepositoControlador(): 
+    """
+    Controlador para la gestión de depósitos en tarjetas.
+
+    Attributes:
+        Session (sqlalchemy.orm.session.sessionmaker): Sesión para la conexión a la base de datos.
+        sesion: Sesión activa para realizar operaciones en la base de datos.
+    """
+    
     Session = sessionmaker(bind=engine)
     sesion = Session()
 

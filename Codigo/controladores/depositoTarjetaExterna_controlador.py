@@ -8,6 +8,13 @@ from excepciones import excepciones_tarjeta
 from datetime import datetime
 
 class TransferenciaControlador:
+     """
+    Controlador para la gestión de transferencias entre tarjetas.
+
+    Attributes:
+        Session (sqlalchemy.orm.session.sessionmaker): Sesión para la conexión a la base de datos.
+        sesion: Sesión activa para realizar operaciones en la base de datos.
+    """
     
     Session = sessionmaker(bind=engine)
     sesion = Session()
@@ -35,6 +42,22 @@ class TransferenciaControlador:
 
     @staticmethod
     def validar_tarjeta(num_tarjeta, nip, monto, es_origen):
+        """
+        Valida la tarjeta de origen o destino.
+
+        Args:
+            num_tarjeta (str): Número de tarjeta a validar.
+            nip (str): NIP asociado a la tarjeta.
+            monto (float): Monto de la transferencia.
+            es_origen (bool): Indica si la tarjeta es de origen o destino.
+
+        Raises:
+            excepciones_tarjeta.NumeroTarjetaIncorrecto: Si el número de tarjeta es incorrecto.
+            excepciones_tarjeta.NipIncorrecto: Si el NIP es incorrecto.
+
+        Returns:
+            Tarjeta: Tarjeta válida.
+        """
         if Tarjeta_Debito.validar_Tarjeta(num_tarjeta):
             tarjeta = Tarjeta_Debito.obtener_tarjeta_Debito_numero(num_tarjeta, TransferenciaControlador.sesion)
         elif es_origen and Tarjeta_Credito.validar_Tarjeta(num_tarjeta):
@@ -51,6 +74,16 @@ class TransferenciaControlador:
 
     @staticmethod
     def verificar_fondos(tarjeta, monto):
+            """
+        Verifica si la tarjeta tiene fondos suficientes para la transferencia.
+
+        Args:
+            tarjeta (Tarjeta): Tarjeta de origen.
+            monto (float): Monto de la transferencia.
+
+        Raises:
+            excepciones_tarjeta.SaldoInsuficiente: Si el saldo es insuficiente.
+        """
         if isinstance(tarjeta, Tarjeta_Debito):
             if tarjeta.Saldo < monto:
                 raise excepciones_tarjeta.SaldoInsuficiente("Saldo insuficiente en tarjeta de débito")
@@ -60,6 +93,14 @@ class TransferenciaControlador:
 
     @staticmethod
     def actualizar_saldos(tarjeta_origen, tarjeta_destino, monto):
+              """
+        Actualiza los saldos de las tarjetas involucradas en la transferencia.
+
+        Args:
+            tarjeta_origen (Tarjeta): Tarjeta de origen.
+            tarjeta_destino (Tarjeta): Tarjeta de destino.
+            monto (float): Monto de la transferencia.
+        """
         if isinstance(tarjeta_origen, Tarjeta_Debito):
             tarjeta_origen.Saldo -= monto
         elif isinstance(tarjeta_origen, Tarjeta_Credito):
@@ -71,6 +112,15 @@ class TransferenciaControlador:
 
     @staticmethod
     def registrar_movimiento(tarjeta_origen, tarjeta_destino, monto):
+        """
+        Registra los movimientos de la transferencia en las cuentas asociadas a las tarjetas.
+
+        Args:
+            tarjeta_origen (Tarjeta): Tarjeta de origen.
+            tarjeta_destino (Tarjeta): Tarjeta de destino.
+            monto (float): Monto de la transferencia.
+        """
+    
         tipo_transferencia = TransferenciaControlador.sesion.query(Tipo_Movimiento).filter_by(Tipo='Transferencia').first()
         
         movimiento_origen = Movimiento(
