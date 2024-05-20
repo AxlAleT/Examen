@@ -4,7 +4,22 @@ from controladores.tarjeta_controlador import TarjetaControlador
 from excepciones.excepciones_tarjeta import NipIncorrecto
 
 class InsertarTarjeta(wx.Frame):
+     """Clase para la interfaz de inserción de tarjeta.
+
+    Esta clase representa la ventana donde el usuario puede insertar el número de tarjeta
+    y el NIP para acceder al menú completo.
+
+    Args:
+        parent (wx.Window): La ventana principal de la aplicación.
+
+    """
     def __init__(self, parent):
+         """Inicializa la ventana de inserción de tarjeta.
+
+        Args:
+            parent (wx.Window): La ventana principal de la aplicación.
+
+        """
         super().__init__(parent, title='Insertar Tarjeta', size=(300, 200))
         self.parent = parent
         self.numero_tarjeta = None  # Variable para almacenar el número de tarjeta
@@ -34,6 +49,16 @@ class InsertarTarjeta(wx.Frame):
         panel.SetSizer(vbox)
 
     def validar_nip(self, event):
+            """Método para validar el NIP ingresado.
+
+        Este método se llama cuando se presiona el botón de validar. Obtiene el número de
+        tarjeta y el NIP ingresados por el usuario, luego intenta validar el NIP llamando
+        al controlador correspondiente.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
         numero_tarjeta = self.text_tarjeta.GetValue()
         nip = self.text_nip.GetValue()
         tarjetaControlador = TarjetaControlador()

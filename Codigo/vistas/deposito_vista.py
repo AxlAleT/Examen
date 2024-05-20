@@ -3,7 +3,28 @@ from controladores.deposito_controlador import DepositoControlador
 from excepciones.excepciones_tarjeta import NumeroTarjetaIncorrecto
 
 class Deposito(wx.Frame):
+        """Clase para la interfaz de depósito de efectivo.
+
+    Esta clase representa la ventana de depósito de efectivo en la interfaz
+    gráfica de usuario.
+
+    Args:
+        parent (wx.Window): La ventana principal de la aplicación.
+        numero_tarjeta (int, optional): El número de tarjeta asociado al depósito.
+
+    Attributes:
+        numero_tarjeta (int): El número de tarjeta asociado al depósito.
+
+    """
+
     def __init__(self, parent, numero_tarjeta=None):
+         """Inicializa la ventana de depósito de efectivo.
+
+        Args:
+            parent (wx.Window): La ventana principal de la aplicación.
+            numero_tarjeta (int, optional): El número de tarjeta asociado al depósito.
+
+        """
         super().__init__(parent, title='Depósito de Efectivo', size=(300, 150))
         self.numero_tarjeta = numero_tarjeta
         panel = wx.Panel(self)
@@ -30,6 +51,16 @@ class Deposito(wx.Frame):
         panel.SetSizer(vbox)
 
     def depositar_efectivo(self, event):
+        """Método para realizar el depósito de efectivo.
+
+        Este método se llama cuando se presiona el botón de depósito. Obtiene
+        el monto y el NIP ingresados por el usuario, luego intenta realizar
+        el depósito llamando al controlador correspondiente.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
         monto_string = self.text_monto.GetValue()
 
         try:
@@ -42,4 +73,13 @@ class Deposito(wx.Frame):
             wx.MessageBox('Monto inválido', 'Error', wx.OK | wx.ICON_ERROR)
 
     def volver_menu_principal(self, event):
+            """Método para volver al menú principal.
+
+        Este método se llama cuando se presiona el botón para volver al menú
+        principal. Cierra la ventana de depósito de efectivo.
+
+        Args:
+            event: El evento que desencadenó la llamada al método.
+
+        """
         self.Close()
