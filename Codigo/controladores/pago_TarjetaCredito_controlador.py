@@ -34,7 +34,6 @@ class PagoTarjetaCreditoControlador():
                 except DenominacionNoExistente as e:
                     raise NoSePuedeDarMontoException(f"Error al procesar billetes: {str(e)}")
 
-        # Verificar si es una tarjeta de crédito válida
         tarjeta_credito = None
         if Tarjeta_Credito.validar_Tarjeta(num_tarjeta):
             tarjeta_credito = Tarjeta_Credito.obtener_tarjeta_Credito_numero(num_tarjeta, PagoTarjetaCreditoControlador.sesion)
