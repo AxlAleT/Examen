@@ -8,7 +8,7 @@ from excepciones import excepciones_tarjeta
 from datetime import datetime
 
 class TransferenciaControlador:
-     """
+    """
     Controlador para la gestión de transferencias entre tarjetas.
 
     Attributes:
@@ -74,7 +74,7 @@ class TransferenciaControlador:
 
     @staticmethod
     def verificar_fondos(tarjeta, monto):
-            """
+        """
         Verifica si la tarjeta tiene fondos suficientes para la transferencia.
 
         Args:
@@ -93,7 +93,7 @@ class TransferenciaControlador:
 
     @staticmethod
     def actualizar_saldos(tarjeta_origen, tarjeta_destino, monto):
-              """
+        """
         Actualiza los saldos de las tarjetas involucradas en la transferencia.
 
         Args:
