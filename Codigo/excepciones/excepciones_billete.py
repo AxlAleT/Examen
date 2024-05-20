@@ -3,3 +3,6 @@ class NoSePuedeDarMontoException(Exception):
 
 class NoHaySolucionEficienteException(Exception):
     pass
+
+class DenominacionNoExistente(Exception):
+    pass

@@ -32,8 +32,8 @@ class MenuCompleto(wx.Frame):
 
     def depositar_efectivo(self, event):
         from vistas.deposito_vista import Deposito
-        deposito = Deposito()
-        deposito.show()
+        deposito = Deposito(self, numero_tarjeta= self.numero_tarjeta)
+        deposito.Show()
 
 
     def pagar_tarjeta_credito(self, event):
@@ -41,8 +41,9 @@ class MenuCompleto(wx.Frame):
         # Aquí puedes utilizar self.numero_tarjeta según sea necesario
 
     def pagar_servicios(self, event):
-        print("Pago de servicios")
-        # Aquí puedes utilizar self.numero_tarjeta según sea necesario
+        from vistas.seleccionarServicio import SeleccionarServicioParaTarjeta
+        seleccionarServicioParaTarjeta = SeleccionarServicioParaTarjeta(self, num_tarjeta=self.numero_tarjeta)
+        seleccionarServicioParaTarjeta.Show()
 
     def consultar_saldo_movimientos(self, event):
         print("Consulta de saldo/movimientos")

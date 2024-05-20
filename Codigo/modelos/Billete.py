@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, CheckConstraint
 from bd.base import Base
 from sqlalchemy import desc
+from excepciones.excepciones_billete import DenominacionNoExistente
 
 class Billete(Base):
     __tablename__ = "Billete"
@@ -9,6 +10,15 @@ class Billete(Base):
     Denominacion = Column(Integer, CheckConstraint('Denominacion >= 20 AND Denominacion <= 1000'), nullable=False)
     Cantidad = Column(Integer)
 
+    @staticmethod
+    def agregar_billete(denominacion, cantidad, sesion):
+        billete = sesion.query(Billete).filter_by(Denominacion=denominacion).first()
+        if billete:
+            billete.Cantidad += cantidad
+            sesion.commit()
+            return billete
+        else:
+            raise DenominacionNoExistente(f"No se puede introducir billete de {denominacion} porque no existe en los registros.")
 
     def puede_dar_monto(self, session, monto):
         billetes = session.query(Billete).all()
