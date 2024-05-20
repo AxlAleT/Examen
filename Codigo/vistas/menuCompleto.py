@@ -3,7 +3,8 @@ from vistas.retiro_vista import Retiro
 from vistas.cambio_nip_gui import CambioNIP
 
 class MenuCompleto(wx.Frame):
-    """Clase para el menú completo de la aplicación.
+    """
+    Clase para el menú completo de la aplicación.
 
     Esta clase representa la ventana principal del menú completo, donde el usuario puede
     seleccionar diversas operaciones, como retiro de efectivo, depósito de efectivo, pago
@@ -15,7 +16,8 @@ class MenuCompleto(wx.Frame):
 
     """
     def __init__(self, parent, numero_tarjeta=None):
-        """Inicializa la ventana del menú completo.
+        """
+        Inicializa la ventana del menú completo.
 
         Args:
             parent (wx.Window): La ventana principal de la aplicación.
@@ -47,7 +49,8 @@ class MenuCompleto(wx.Frame):
         self.Show()
 
     def retirar_efectivo(self, event):
-        """Método para manejar el evento de retiro de efectivo.
+        """
+        Método para manejar el evento de retiro de efectivo.
 
         Este método crea y muestra la ventana de retiro de efectivo.
 
@@ -73,7 +76,8 @@ class MenuCompleto(wx.Frame):
 
 
     def pagar_tarjeta_credito(self, event):
-        """Método para manejar el evento de pago de tarjeta de crédito.
+        """
+        Método para manejar el evento de pago de tarjeta de crédito.
 
         Este método crea y muestra la ventana de pago de tarjeta de crédito.
 
@@ -86,7 +90,8 @@ class MenuCompleto(wx.Frame):
         pagoTarjetaCredito.Show()
 
     def pagar_servicios(self, event):
-        """Método para manejar el evento de pago de servicios.
+        """
+        Método para manejar el evento de pago de servicios.
 
         Este método crea y muestra la ventana de selección de servicio para el pago.
 
@@ -99,7 +104,8 @@ class MenuCompleto(wx.Frame):
         seleccionarServicioParaTarjeta.Show()
 
     def consultar_saldo_movimientos(self, event):
-        """Método para manejar el evento de consulta de saldo y movimientos.
+        """
+        Método para manejar el evento de consulta de saldo y movimientos.
 
         Este método realiza la operación de consulta de saldo y movimientos.
 
@@ -115,7 +121,8 @@ class MenuCompleto(wx.Frame):
         nip_frame.Show()
 
     def salir(self, event):
-        """Método para manejar el evento de salir.
+        """
+        Método para manejar el evento de salir.
 
         Este método cierra la ventana actual.
 
