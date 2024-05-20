@@ -14,7 +14,7 @@ class Billete(Base):
     __tablename__ = "Billete"
 
     ID_Billete = Column(Integer, primary_key=True, nullable=False, unique=True)
-    Denominacion = Column(Integer, CheckConstraint('Denominacion >= 20 AND Denominacion <= 1000'), nullable=False)
+    Denominacion = Column(Integer, CheckConstraint('Denominacion IN (20, 50, 100, 200, 500, 1000)'), nullable=False)
     Cantidad = Column(Integer)
 
     @staticmethod
@@ -118,7 +118,7 @@ class Billete(Base):
         Notes:
             Si no es posible entregar el monto con las denominaciones disponibles, devuelve una lista vacía.
         """
-        denominaciones.sort(reverse=True)  # Ordenamos las denominaciones de mayor a menor
+        denominaciones.sort(reverse=True, key=lambda x: x[0])  # Ordenamos las denominaciones de mayor a menor
         cambio = []
         for denom, cant in denominaciones:
             if monto <= 0:
@@ -132,4 +132,5 @@ class Billete(Base):
             print("No se puede dar cambio completo.")
             return []
         return cambio
+
 
