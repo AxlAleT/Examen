@@ -1,69 +1,72 @@
 @startuml
+!define primary_key(x) <b><u>x</u></b>
+!define foreign_key(x) <u>x</u>
+
 entity Cuenta {
-    ID_Cuenta : int
+    *primary_key(ID_Cuenta) : int
     Nombre : string
     Dirección : string
+    --
     // Otros atributos
 }
 
 entity TarjetaDebito {
-    ID_TarjetaDebito : int
+    *primary_key(ID_TarjetaDebito) : int
     NumeroTarjeta : string
     Saldo : decimal
-    ID_Cuenta : int
+    foreign_key(ID_Cuenta) : int
 }
 
 entity TarjetaCredito {
-    ID_TarjetaCredito : int
+    *primary_key(ID_TarjetaCredito) : int
     NumeroTarjeta : string
     LimiteCredito : decimal
     Saldo : decimal
-    ID_Cuenta : int
+    foreign_key(ID_Cuenta) : int
 }
 
 entity Movimiento {
-    ID_Movimiento : int
+    *primary_key(ID_Movimiento) : int
     Fecha : Date
     Monto : decimal
-    ID_Tipo_Movimiento : int
+    foreign_key(ID_Tipo_Movimiento) : int
 }
 
 entity Tipo_Movimiento {
-    ID_Tipo_Movimiento : int
+    *primary_key(ID_Tipo_Movimiento) : int
     Tipo : string
     Descripcion : string
 }
 
 entity MovimientoPagoServicio {
-    ID_Movimiento : int
+    *primary_key(ID_Movimiento) : int
     Num_Convenio : int
     Referencia : string
 }
 
 entity Servicio {
-    Num_Convenio : int
+    *primary_key(Num_Convenio) : int
     NombreServicio : string
 }
 
 entity Cuenta_Movimiento {
-    ID_Movimiento : int
-    ID_Cuenta : int
+    *foreign_key(ID_Movimiento) : int
+    *foreign_key(ID_Cuenta) : int
 }
 
 entity BilletesCajero {
-    ID_Billete : int
+    *primary_key(ID_Billete) : int
     Denominacion : int
     Cantidad : int
 }
 
-Cuenta ||--o{ TarjetaDebito : "tiene"
-Cuenta ||--o{ TarjetaCredito : "tiene"
-Cuenta ||--o{ Cuenta_Movimiento : "relacionado con"
-Cuenta_Movimiento }o--|| Movimiento : "relaciona"
+Cuenta ||--|| TarjetaDebito
+Cuenta |o..|| TarjetaCredito
+Cuenta ||--o{ Cuenta_Movimiento
+Cuenta_Movimiento }o--|| Movimiento
 
-Movimiento ||--|| MovimientoPagoServicio : "especialización"
+Movimiento |o..|| MovimientoPagoServicio
 Movimiento ||--|| Tipo_Movimiento
 
-MovimientoPagoServicio }o--|| Servicio : "usa"
-
+MovimientoPagoServicio |o--|| Servicio
 @enduml

@@ -1,0 +1,23 @@
+@startuml
+!theme toy
+
+actor Cliente
+
+boundary "Vistas (Interfaz de Usuario)"
+control "Controladores"
+entity "Modelos"
+component "BD (SQLAlchemy)" {
+    database "Base de datos SQLite"
+    component SQLAlchemy
+}
+component "Excepciones"
+
+Cliente --> "Vistas (Interfaz de Usuario)"
+"Vistas (Interfaz de Usuario)" --> Controladores
+Controladores --> Modelos
+Controladores --> Excepciones
+Modelos --> SQLAlchemy
+"BD (SQLAlchemy)" --> SQLAlchemy
+SQLAlchemy --> "Base de datos SQLite"
+
+@enduml
